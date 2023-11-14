@@ -18,12 +18,33 @@
     <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
 
+<pluginRepositories>
+    <pluginRepository>
+        <id>bintray</id>
+        <name>Groovy Bintray</name>
+        <url>https://dl.bintray.com/groovy/maven</url>
+        <releases>
+            <!-- avoid automatic updates -->
+            <updatePolicy>never</updatePolicy>
+        </releases>
+        <snapshots>
+            <enabled>false</enabled>
+        </snapshots>
+    </pluginRepository>
+</pluginRepositories>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.11</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.groovy</groupId>
+      <artifactId>groovy-all</artifactId>
+      <version>3.0.15</version>
+      <type>pom</type>
     </dependency>
   </dependencies>
 
@@ -35,15 +56,20 @@
           <artifactId>maven-clean-plugin</artifactId>
           <version>3.1.0</version>
         </plugin>
-        <!-- default lifecycle, jar packaging: see https://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
+        <!-- default lifecycle, jar packaging: see https://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging --> 
         <plugin>
           <artifactId>maven-resources-plugin</artifactId>
           <version>3.0.2</version>
         </plugin>
+        
+        <!--
+          disabled because is duplicated
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.8.0</version>
         </plugin>
+        -->
+      
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>2.22.1</version>
@@ -69,6 +95,37 @@
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.0.0</version>
         </plugin>
+
+<plugin>
+    <groupId>org.codehaus.groovy</groupId>
+    <artifactId>groovy-eclipse-compiler</artifactId>
+    <version>3.7.0</version>
+    <extensions>true</extensions>
+</plugin>
+
+
+<plugin>
+    <artifactId>maven-compiler-plugin</artifactId>
+    <version>3.11.0</version>
+    <configuration>
+        <compilerId>groovy-eclipse-compiler</compilerId>
+        <source>${java.version}</source>
+        <target>${java.version}</target>
+    </configuration>
+    <dependencies>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-eclipse-compiler</artifactId>
+            <version>3.7.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-eclipse-batch</artifactId>
+            <version>3.0.8-01</version>
+        </dependency>
+    </dependencies>
+</plugin>
+
       </plugins>
     </pluginManagement>
   </build>
